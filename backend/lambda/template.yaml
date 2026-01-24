@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AI Workflow Center Backend
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 128
+    Runtime: provided.al2
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        SUPABASE_URL: !Ref SupabaseURL
+        DB_PASSWORD: !Ref DBPassword
+        JWT_SECRET: !Ref JWTSecret
+
+Parameters:
+  SupabaseURL:
+    Type: String
+    Description: Supabase project URL
+  DBPassword:
+    Type: String
+    Description: Database password
+    NoEcho: true
+  JWTSecret:
+    Type: String
+    Description: JWT secret key (shared with DID Login)
+    NoEcho: true
+
+Resources:
+  # API Gateway
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+        MaxAge: "'600'"
+        AllowCredentials: false
+
+  # List Workflows Function
+  ListWorkflowsFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Events:
+        ListWorkflows:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/projects/{projectId}/workflows
+            Method: GET
+
+  # Create Workflow Function
+  CreateWorkflowFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Events:
+        CreateWorkflow:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/workflows
+            Method: POST
+
+  # Execute Workflow Function
+  ExecuteWorkflowFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Timeout: 60
+      Events:
+        ExecuteWorkflow:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/workflows/{id}/execute
+            Method: POST
+
+  # Update Workflow Function
+  UpdateWorkflowFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Events:
+        UpdateWorkflow:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/workflows/{id}
+            Method: PUT
+
+  # Delete Workflow Function
+  DeleteWorkflowFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Events:
+        DeleteWorkflow:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/workflows/{id}
+            Method: DELETE
+
+  # Share Workflow Function
+  ShareWorkflowFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Events:
+        ShareWorkflow:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/workflows/{id}/share
+            Method: PUT
+
+  # Hide Workflow Function
+  HideWorkflowFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      CodeUri: ../go/
+      Handler: bootstrap
+      Events:
+        HideWorkflow:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: /api/projects/{projectId}/workflows/{workflowId}/hide
+            Method: PUT
+
+Outputs:
+  ApiGatewayUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub "https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/prod"

@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "ai-workflow-backend"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-xxxxx"
+s3_prefix = "ai-workflow-backend"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "SupabaseURL=\"https://rbpsksuuvtzmathnmyxn.supabase.co\" DBPassword=\"your-password\" JWTSecret=\"your-secret\""
+image_repositories = []

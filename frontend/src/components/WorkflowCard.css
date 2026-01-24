@@ -1,0 +1,123 @@
+.workflow-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.workflow-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+.workflow-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.workflow-card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+  flex: 1;
+}
+
+.workflow-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.badge-coze {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.badge-n8n {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.badge-template {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.badge-shared {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.workflow-card-body {
+  flex: 1;
+}
+
+.workflow-description {
+  color: #666;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.workflow-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.workflow-meta-item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.workflow-meta-item .label {
+  font-weight: 500;
+  color: #666;
+  min-width: 60px;
+}
+
+.workflow-meta-item .value {
+  color: #333;
+}
+
+.workflow-url {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.workflow-card-footer .btn {
+  width: 100%;
+}
+
+.workflow-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.workflow-actions .btn {
+  width: 100%;
+}

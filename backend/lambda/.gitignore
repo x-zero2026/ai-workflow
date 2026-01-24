@@ -1,0 +1,12 @@
+# SAM build artifacts
+.aws-sam/
+
+# Environment variables
+env.json
+
+# SAM configuration
+samconfig.toml
+
+# OS
+.DS_Store
+Thumbs.db
