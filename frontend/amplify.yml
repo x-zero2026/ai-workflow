@@ -1,28 +1,19 @@
 version: 1
-applications:
-  - frontend:
-      phases:
-        preBuild:
-          commands:
-            # 显示 Node.js 和 npm 版本
-            - node --version
-            - npm --version
-            # 安装依赖（使用 ci 更快更可靠）
-            - npm ci
-        build:
-          commands:
-            # 显示当前分支（用于调试）
-            - echo "Building AI Workflow Center for branch $AWS_BRANCH"
-            # 构建生产环境代码
-            - npm run build
-      artifacts:
-        # 构建输出目录
-        baseDirectory: dist
-        # 包含所有文件
-        files:
-          - '**/*'
-      cache:
-        # 缓存 node_modules 加速后续构建
-        paths:
-          - node_modules/**/*
-    appRoot: ai-workflow/frontend
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - node --version
+        - npm --version
+        - npm ci
+    build:
+      commands:
+        - echo "Building AI Workflow Center for branch $AWS_BRANCH"
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
