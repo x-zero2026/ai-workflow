@@ -66,13 +66,15 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return response.InternalError("Failed to get workflow"), nil
 	}
 
-	// Check if user has access to the workflow's project
+	// Check if user has access to the workflow's project OR if workflow is shared
 	hasAccess, err := db.CheckProjectAccess(database, claims.DID, workflow.ProjectID)
 	if err != nil {
 		log.Printf("Error checking project access: %v", err)
 		return response.InternalError("Failed to check project access"), nil
 	}
-	if !hasAccess {
+	
+	// Allow access if user has project access OR workflow is shared
+	if !hasAccess && !workflow.IsShared {
 		return response.Forbidden("Access denied to this workflow"), nil
 	}
 

@@ -34,6 +34,8 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: prod
+      Auth:
+        DefaultAuthorizer: NONE
       Cors:
         AllowOrigin: "'*'"
         AllowHeaders: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
