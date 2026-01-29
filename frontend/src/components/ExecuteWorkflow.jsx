@@ -13,12 +13,25 @@ function ExecuteWorkflow({ workflow, onClose }) {
   const [parameters, setParameters] = useState(
     JSON.stringify(workflow.parameters || {}, null, 2)
   )
-  const [headers, setHeaders] = useState(
-    JSON.stringify(initialHeaders, null, 2)
-  )
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Function to mask bearer token in request display
+  const maskBearerToken = (obj) => {
+    if (!obj) return obj
+    
+    const masked = JSON.parse(JSON.stringify(obj)) // Deep clone
+    
+    if (masked.headers && masked.headers.Authorization) {
+      const authValue = masked.headers.Authorization
+      if (authValue.startsWith('Bearer ')) {
+        masked.headers.Authorization = 'Bearer ' + '*'.repeat(authValue.length - 7)
+      }
+    }
+    
+    return masked
+  }
 
   const handleExecute = async () => {
     setError(null)
@@ -27,9 +40,8 @@ function ExecuteWorkflow({ workflow, onClose }) {
     // Validate JSON
     try {
       JSON.parse(parameters)
-      JSON.parse(headers)
     } catch (e) {
-      setError('Invalid JSON format in parameters or headers')
+      setError('Invalid JSON format in parameters')
       return
     }
 
@@ -38,11 +50,16 @@ function ExecuteWorkflow({ workflow, onClose }) {
     try {
       const response = await api.executeWorkflow(workflow.workflow_id, {
         parameters: JSON.parse(parameters),
-        headers: JSON.parse(headers)
+        headers: initialHeaders
       })
 
       if (response.success) {
-        setResult(response.data)
+        // Mask bearer token in the request before displaying
+        const maskedResult = {
+          ...response.data,
+          request: maskBearerToken(response.data.request)
+        }
+        setResult(maskedResult)
       }
     } catch (err) {
       setError(err.error || 'Failed to execute workflow')
@@ -53,6 +70,13 @@ function ExecuteWorkflow({ workflow, onClose }) {
 
   return (
     <div className="modal-overlay">
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner"></div>
+        </div>
+      )}
+
       <div className="modal-content execute-workflow">
         <div className="modal-header">
           <h2>Execute: {workflow.workflow_name}</h2>
@@ -66,16 +90,6 @@ function ExecuteWorkflow({ workflow, onClose }) {
               value={parameters}
               onChange={(e) => setParameters(e.target.value)}
               rows="8"
-              className="code-editor"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Headers (JSON)</label>
-            <textarea
-              value={headers}
-              onChange={(e) => setHeaders(e.target.value)}
-              rows="6"
               className="code-editor"
             />
           </div>
