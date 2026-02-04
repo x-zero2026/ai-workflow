@@ -13,20 +13,20 @@ function WorkflowCard({ workflow, onExecute, onEdit, onDelete, onShare, onHide, 
   }
 
   const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete "${workflow.workflow_name}"?`)) {
+    if (window.confirm(`确定要删除"${workflow.workflow_name}"吗？`)) {
       onDelete(workflow.workflow_id)
     }
   }
 
   const handleShare = () => {
-    const action = workflow.is_shared ? 'unshare' : 'share'
-    if (window.confirm(`Are you sure you want to ${action} this workflow?`)) {
+    const action = workflow.is_shared ? '取消共享' : '共享'
+    if (window.confirm(`确定要${action}此工作流吗？`)) {
       onShare(workflow.workflow_id, !workflow.is_shared)
     }
   }
 
   const handleHide = () => {
-    if (window.confirm(`Are you sure you want to hide "${workflow.workflow_name}"?`)) {
+    if (window.confirm(`确定要隐藏"${workflow.workflow_name}"吗？`)) {
       onHide(workflow.workflow_id, true)
     }
   }
@@ -36,9 +36,11 @@ function WorkflowCard({ workflow, onExecute, onEdit, onDelete, onShare, onHide, 
       <div className="workflow-card-header">
         <h3>{workflow.workflow_name}</h3>
         <div className="workflow-badges">
-          <span className={`badge badge-${workflow.source}`}>{workflow.source}</span>
+          <span className={`badge badge-${workflow.source}`}>
+            {workflow.source === 'workflow' ? '工作流' : workflow.source}
+          </span>
           <span className="badge badge-template">{workflow.template_name}</span>
-          {workflow.is_shared && <span className="badge badge-shared">Shared</span>}
+          {workflow.is_shared && <span className="badge badge-shared">共享中</span>}
         </div>
       </div>
 
@@ -61,22 +63,22 @@ function WorkflowCard({ workflow, onExecute, onEdit, onDelete, onShare, onHide, 
 
       <div className="workflow-card-footer">
         <button className="btn btn-primary" onClick={handleExecute}>
-          Execute
+          执行
         </button>
 
         {isAdmin && (
           <div className="workflow-actions">
             <button className="btn btn-secondary" onClick={handleEdit}>
-              Edit
+              编辑
             </button>
             <button className="btn btn-secondary" onClick={handleShare}>
-              {workflow.is_shared ? 'Unshare' : 'Share'}
+              {workflow.is_shared ? '取消共享' : '共享'}
             </button>
             <button className="btn btn-secondary" onClick={handleHide}>
-              Hide
+              隐藏
             </button>
             <button className="btn btn-danger" onClick={handleDelete}>
-              Delete
+              删除
             </button>
           </div>
         )}

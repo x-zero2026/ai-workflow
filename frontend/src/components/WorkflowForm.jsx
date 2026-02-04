@@ -34,32 +34,32 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
     const newErrors = {}
 
     if (!formData.workflow_name.trim()) {
-      newErrors.workflow_name = 'Workflow name is required'
+      newErrors.workflow_name = '工作流名称为必填项'
     }
     if (!formData.description.trim()) {
-      newErrors.description = 'Description is required'
+      newErrors.description = '描述为必填项'
     }
     if (!formData.base_url.trim()) {
-      newErrors.base_url = 'Base URL is required'
+      newErrors.base_url = '基础 URL 为必填项'
     }
     if (!formData.bearer_token.trim()) {
-      newErrors.bearer_token = 'Bearer token is required'
+      newErrors.bearer_token = 'Bearer token 为必填项'
     }
     if (!formData.external_workflow_id.trim()) {
-      newErrors.external_workflow_id = 'Workflow ID is required'
+      newErrors.external_workflow_id = '工作流 ID 为必填项'
     }
 
     // Validate JSON
     try {
       JSON.parse(formData.parameters)
     } catch (e) {
-      newErrors.parameters = 'Invalid JSON format'
+      newErrors.parameters = 'JSON 格式无效'
     }
 
     try {
       JSON.parse(formData.headers)
     } catch (e) {
-      newErrors.headers = 'Invalid JSON format'
+      newErrors.headers = 'JSON 格式无效'
     }
 
     setErrors(newErrors)
@@ -84,7 +84,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
 
       await onSubmit(submitData)
     } catch (err) {
-      alert(err.error || 'Failed to save workflow')
+      alert(err.error || '保存工作流失败')
     } finally {
       setLoading(false)
     }
@@ -94,13 +94,13 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
     <div className="modal-overlay">
       <div className="modal-content workflow-form">
         <div className="modal-header">
-          <h2>{isEdit ? 'Edit Workflow' : 'Create Workflow'}</h2>
+          <h2>{isEdit ? '编辑工作流' : '创建工作流'}</h2>
           <button className="btn-close" onClick={onCancel}>×</button>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Workflow Name *</label>
+            <label>工作流名称 *</label>
             <input
               type="text"
               name="workflow_name"
@@ -112,7 +112,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
           </div>
 
           <div className="form-group">
-            <label>Description *</label>
+            <label>描述 *</label>
             <textarea
               name="description"
               value={formData.description}
@@ -125,7 +125,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Source *</label>
+              <label>来源 *</label>
               <select name="source" value={formData.source} onChange={handleChange}>
                 <option value="coze">Coze</option>
                 <option value="n8n">n8n</option>
@@ -133,7 +133,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
             </div>
 
             <div className="form-group">
-              <label>Template *</label>
+              <label>模板 *</label>
               <select name="template_name" value={formData.template_name} onChange={handleChange}>
                 <option value="workflow">Workflow</option>
                 <option value="streamflow">Streamflow</option>
@@ -141,7 +141,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
             </div>
 
             <div className="form-group">
-              <label>HTTP Method *</label>
+              <label>HTTP 方法 *</label>
               <select name="http_method" value={formData.http_method} onChange={handleChange}>
                 <option value="GET">GET</option>
                 <option value="POST">POST</option>
@@ -151,7 +151,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
           </div>
 
           <div className="form-group">
-            <label>Base URL *</label>
+            <label>基础 URL *</label>
             <input
               type="text"
               name="base_url"
@@ -176,7 +176,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
           </div>
 
           <div className="form-group">
-            <label>External Workflow ID *</label>
+            <label>外部工作流 ID *</label>
             <input
               type="text"
               name="external_workflow_id"
@@ -189,7 +189,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
           </div>
 
           <div className="form-group">
-            <label>Parameters (JSON)</label>
+            <label>参数 (JSON)</label>
             <textarea
               name="parameters"
               value={formData.parameters}
@@ -202,7 +202,7 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
           </div>
 
           <div className="form-group">
-            <label>Headers (JSON)</label>
+            <label>请求头 (JSON)</label>
             <textarea
               name="headers"
               value={formData.headers}
@@ -216,10 +216,10 @@ function WorkflowForm({ projectId, workflow, onSubmit, onCancel }) {
 
           <div className="form-actions">
             <button type="button" className="btn btn-secondary" onClick={onCancel}>
-              Cancel
+              取消
             </button>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Saving...' : (isEdit ? 'Update' : 'Create')}
+              {loading ? '保存中...' : (isEdit ? '更新' : '创建')}
             </button>
           </div>
         </form>

@@ -41,7 +41,7 @@ function ExecuteWorkflow({ workflow, onClose }) {
     try {
       JSON.parse(parameters)
     } catch (e) {
-      setError('Invalid JSON format in parameters')
+      setError('参数 JSON 格式无效')
       return
     }
 
@@ -62,7 +62,7 @@ function ExecuteWorkflow({ workflow, onClose }) {
         setResult(maskedResult)
       }
     } catch (err) {
-      setError(err.error || 'Failed to execute workflow')
+      setError(err.error || '执行工作流失败')
     } finally {
       setLoading(false)
     }
@@ -79,13 +79,13 @@ function ExecuteWorkflow({ workflow, onClose }) {
 
       <div className="modal-content execute-workflow">
         <div className="modal-header">
-          <h2>Execute: {workflow.workflow_name}</h2>
+          <h2>执行: {workflow.workflow_name}</h2>
           <button className="btn-close" onClick={onClose}>×</button>
         </div>
 
         <div className="execute-form">
           <div className="form-group">
-            <label>Parameters (JSON)</label>
+            <label>参数 (JSON)</label>
             <textarea
               value={parameters}
               onChange={(e) => setParameters(e.target.value)}
@@ -100,7 +100,7 @@ function ExecuteWorkflow({ workflow, onClose }) {
               onClick={handleExecute}
               disabled={loading}
             >
-              {loading ? 'Executing...' : 'Execute'}
+              {loading ? '执行中...' : '执行'}
             </button>
           </div>
 
@@ -112,15 +112,15 @@ function ExecuteWorkflow({ workflow, onClose }) {
 
           {result && (
             <div className="execute-result">
-              <h3>Request</h3>
+              <h3>请求</h3>
               <div className="result-section">
                 <pre>{JSON.stringify(result.request, null, 2)}</pre>
               </div>
 
-              <h3>Response</h3>
+              <h3>响应</h3>
               <div className="result-section">
                 <div className="response-status">
-                  Status: <span className={result.response.status < 400 ? 'success' : 'error'}>
+                  状态: <span className={result.response.status < 400 ? 'success' : 'error'}>
                     {result.response.status} {result.response.status_text}
                   </span>
                 </div>

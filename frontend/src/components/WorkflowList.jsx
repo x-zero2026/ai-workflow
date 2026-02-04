@@ -6,7 +6,7 @@ function WorkflowList({ workflows, onExecute, onEdit, onDelete, onShare, onHide,
   if (workflows.length === 0) {
     return (
       <div className="workflow-list-empty">
-        <p>No workflows found. Create your first workflow!</p>
+        <p>暂无工作流。创建你的第一个工作流吧！</p>
       </div>
     )
   }

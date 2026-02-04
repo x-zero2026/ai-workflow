@@ -160,9 +160,9 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>AI Workflow Center</h1>
+        <h1>AI 工作流中心</h1>
         <div className="project-selector">
-          <label>Project: </label>
+          <label>项目: </label>
           <select 
             value={selectedProject?.project_id || ''} 
             onChange={(e) => {
@@ -193,13 +193,13 @@ function App() {
               className="btn-primary" 
               onClick={() => setShowCreateForm(true)}
             >
-              + Create Workflow
+              + 创建工作流
             </button>
           </div>
         )}
 
         {loading ? (
-          <div className="loading">Loading...</div>
+          <div className="loading">加载中...</div>
         ) : (
           <WorkflowList 
             workflows={workflows}
