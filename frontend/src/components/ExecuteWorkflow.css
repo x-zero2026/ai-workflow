@@ -9,34 +9,38 @@
 .code-editor {
   font-family: 'Courier New', monospace;
   font-size: 0.875rem;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  color: white;
   border-radius: 4px;
   padding: 1rem;
   width: 100%;
   resize: vertical;
+  transition: all 0.3s;
 }
 
 .code-editor:focus {
   outline: none;
-  border-color: #007bff;
-  background: white;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
 }
 
 .execute-result {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 2px solid #eee;
+  border-top: 2px solid rgba(102, 126, 234, 0.3);
 }
 
 .execute-result h3 {
   margin: 0 0 1rem 0;
   font-size: 1.125rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .result-section {
-  background: #f5f5f5;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 4px;
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -48,7 +52,7 @@
   font-size: 0.875rem;
   white-space: pre-wrap;
   word-wrap: break-word;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .response-status {
@@ -57,11 +61,11 @@
 }
 
 .response-status .success {
-  color: #28a745;
+  color: #51cf66;
 }
 
 .response-status .error {
-  color: #dc3545;
+  color: #ff6b6b;
 }
 
 /* Loading Overlay */
@@ -71,7 +75,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,8 +85,8 @@
 .loading-spinner {
   width: 60px;
   height: 60px;
-  border: 6px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border: 6px solid rgba(102, 126, 234, 0.3);
+  border-top-color: #667eea;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

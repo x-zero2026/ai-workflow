@@ -1,7 +1,9 @@
 .workflow-card {
-  background: white;
+  background: rgba(20, 20, 30, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -11,7 +13,8 @@
 
 .workflow-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.5);
+  border-color: #667eea;
 }
 
 .workflow-card-header {
@@ -24,7 +27,7 @@
 .workflow-card-header h3 {
   margin: 0;
   font-size: 1.25rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.95);
   flex: 1;
 }
 
@@ -43,23 +46,33 @@
 }
 
 .badge-coze {
-  background: #e3f2fd;
-  color: #1976d2;
+  background: rgba(25, 118, 210, 0.2);
+  color: #64b5f6;
+  border: 1px solid rgba(25, 118, 210, 0.3);
 }
 
 .badge-n8n {
-  background: #f3e5f5;
-  color: #7b1fa2;
+  background: rgba(123, 31, 162, 0.2);
+  color: #ba68c8;
+  border: 1px solid rgba(123, 31, 162, 0.3);
+}
+
+.badge-workflow {
+  background: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+  border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .badge-template {
-  background: #f5f5f5;
-  color: #666;
+  background: rgba(100, 100, 100, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(100, 100, 100, 0.3);
 }
 
 .badge-shared {
-  background: #e8f5e9;
-  color: #388e3c;
+  background: rgba(56, 142, 60, 0.2);
+  color: #81c784;
+  border: 1px solid rgba(56, 142, 60, 0.3);
 }
 
 .workflow-card-body {
@@ -67,7 +80,7 @@
 }
 
 .workflow-description {
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
   margin: 0 0 1rem 0;
 }
@@ -86,12 +99,12 @@
 
 .workflow-meta-item .label {
   font-weight: 500;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   min-width: 60px;
 }
 
 .workflow-meta-item .value {
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .workflow-url {
@@ -105,7 +118,7 @@
   flex-direction: column;
   gap: 0.75rem;
   padding-top: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .workflow-card-footer .btn {

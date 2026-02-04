@@ -3,6 +3,7 @@ import api from './api'
 import WorkflowList from './components/WorkflowList'
 import WorkflowForm from './components/WorkflowForm'
 import ExecuteWorkflow from './components/ExecuteWorkflow'
+import StarfieldBackground from './components/StarfieldBackground'
 import './App.css'
 
 function App() {
@@ -158,88 +159,91 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>AI 工作流中心</h1>
-        <div className="project-selector">
-          <label>项目: </label>
-          <select 
-            value={selectedProject?.project_id || ''} 
-            onChange={(e) => {
-              const project = projects.find(p => p.project_id === e.target.value)
-              setSelectedProject(project)
-            }}
-          >
-            {projects.map(project => (
-              <option key={project.project_id} value={project.project_id}>
-                {project.project_name} ({project.role})
-              </option>
-            ))}
-          </select>
-        </div>
-      </header>
-
-      <main className="app-main">
-        {error && (
-          <div className="error-message">
-            {error}
-            <button onClick={() => setError(null)}>×</button>
-          </div>
-        )}
-
-        {userRole === 'admin' && (
-          <div className="actions">
-            <button 
-              className="btn-primary" 
-              onClick={() => setShowCreateForm(true)}
+    <>
+      <StarfieldBackground />
+      <div className="app">
+        <header className="app-header">
+          <h1>AI 工作流中心</h1>
+          <div className="project-selector">
+            <label>项目: </label>
+            <select 
+              value={selectedProject?.project_id || ''} 
+              onChange={(e) => {
+                const project = projects.find(p => p.project_id === e.target.value)
+                setSelectedProject(project)
+              }}
             >
-              + 创建工作流
-            </button>
+              {projects.map(project => (
+                <option key={project.project_id} value={project.project_id}>
+                  {project.project_name} ({project.role})
+                </option>
+              ))}
+            </select>
           </div>
-        )}
+        </header>
 
-        {loading ? (
-          <div className="loading">加载中...</div>
-        ) : (
-          <WorkflowList 
-            workflows={workflows}
-            onExecute={handleExecuteWorkflow}
-            onEdit={handleEditWorkflow}
-            onDelete={handleDeleteWorkflow}
-            onShare={handleShareWorkflow}
-            onHide={handleHideWorkflow}
-            userRole={userRole}
+        <main className="app-main">
+          {error && (
+            <div className="error-message">
+              {error}
+              <button onClick={() => setError(null)}>×</button>
+            </div>
+          )}
+
+          {userRole === 'admin' && (
+            <div className="actions">
+              <button 
+                className="btn-primary" 
+                onClick={() => setShowCreateForm(true)}
+              >
+                + 创建工作流
+              </button>
+            </div>
+          )}
+
+          {loading ? (
+            <div className="loading">加载中...</div>
+          ) : (
+            <WorkflowList 
+              workflows={workflows}
+              onExecute={handleExecuteWorkflow}
+              onEdit={handleEditWorkflow}
+              onDelete={handleDeleteWorkflow}
+              onShare={handleShareWorkflow}
+              onHide={handleHideWorkflow}
+              userRole={userRole}
+            />
+          )}
+        </main>
+
+        {showCreateForm && !selectedWorkflow && (
+          <WorkflowForm
+            projectId={selectedProject?.project_id}
+            onSubmit={handleCreateWorkflow}
+            onCancel={() => setShowCreateForm(false)}
           />
         )}
-      </main>
 
-      {showCreateForm && !selectedWorkflow && (
-        <WorkflowForm
-          projectId={selectedProject?.project_id}
-          onSubmit={handleCreateWorkflow}
-          onCancel={() => setShowCreateForm(false)}
-        />
-      )}
+        {showCreateForm && selectedWorkflow && (
+          <WorkflowForm
+            projectId={selectedProject?.project_id}
+            workflow={selectedWorkflow}
+            onSubmit={handleCreateWorkflow}
+            onCancel={() => {
+              setShowCreateForm(false)
+              setSelectedWorkflow(null)
+            }}
+          />
+        )}
 
-      {showCreateForm && selectedWorkflow && (
-        <WorkflowForm
-          projectId={selectedProject?.project_id}
-          workflow={selectedWorkflow}
-          onSubmit={handleCreateWorkflow}
-          onCancel={() => {
-            setShowCreateForm(false)
-            setSelectedWorkflow(null)
-          }}
-        />
-      )}
-
-      {selectedWorkflow && !showCreateForm && (
-        <ExecuteWorkflow
-          workflow={selectedWorkflow}
-          onClose={handleCloseExecute}
-        />
-      )}
-    </div>
+        {selectedWorkflow && !showCreateForm && (
+          <ExecuteWorkflow
+            workflow={selectedWorkflow}
+            onClose={handleCloseExecute}
+          />
+        )}
+      </div>
+    </>
   )
 }
 
